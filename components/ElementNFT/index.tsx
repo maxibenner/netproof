@@ -10,9 +10,11 @@ export default function ElementNFT({
   label: string;
 }) {
   return (
-    <div className={styles.container}>
-      <div className={styles.imgContainer}>
-        <img src={src} />
+    <div className={styles.container} tabIndex={0}>
+      <div className={styles.containerInner}>
+        <div className={styles.imgContainer}>
+          <img src={src} />
+        </div>
       </div>
       <p>{label}</p>
     </div>

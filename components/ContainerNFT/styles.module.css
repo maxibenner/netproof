@@ -7,7 +7,7 @@
 .assetContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 2px;
+  gap: 24px;
+  padding: 12px;
   overflow: hidden;
 }

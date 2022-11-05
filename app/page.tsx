@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import Image from "next/image";
 import ContainerNFT from "../components/ContainerNFT";
+import Popup from "../components/Popup";
 
 export default function Page() {
   return (
@@ -19,6 +20,9 @@ export default function Page() {
       </h4>
       <hr className={styles.divider} />
       <ContainerNFT />
+      <Popup className={styles.popup}>
+        <p>There's so much room for activities!</p>
+      </Popup>
     </>
   );
 }
