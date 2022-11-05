@@ -1,3 +1,10 @@
 .containerInner {
   text-align: center;
 }
+.statusBarContainer > p {
+  overflow: hidden;
+}
+.assetContainer {
+  display: flex;
+  flex-wrap: wrap;
+}

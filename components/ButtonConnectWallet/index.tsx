@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import { useWallet } from "../../hooks/useWallet";
+import { useContext, useMemo } from "react";
 import styles from "./styles.module.css";
+import { WalletContext } from "../../context/walletContext";
 
 /**
  * A button to handle crypto wallet connections
@@ -16,31 +16,37 @@ export default function ButtonConnectWallet({
 }: {
   className?: string;
 }) {
-  const { hasWallet, connectWallet, wallet } = useWallet();
-  const buttonText = useMemo(() => {
-    if (wallet) return "Connected";
-    if (hasWallet) return "Connect Wallet";
-    else hasWallet === undefined ? "" : "Install Wallet";
-  }, [hasWallet, wallet]);
+  const { hasWallet, connectWallet, account } = useContext(WalletContext);
+  const status = useMemo(() => {
+    // Initializing
+    if (hasWallet === undefined) return "";
+    // No wallet installed
+    else if (!hasWallet) return "Install Wallet";
+    // Wallet installed
+    else {
+      // Not connected
+      if (account.length === 0) return "Connect Wallet";
+      // Connected
+      else return "Connected";
+    }
+  }, [hasWallet, account]);
 
   // Route to MetaMask install page if no wallet is detected
   // Otherwise, connect to wallet
   function handleClick() {
-    if (hasWallet === undefined) return;
-    if (hasWallet === true) {
-      connectWallet();
-    } else {
+    if (status === "Connect Wallet") connectWallet();
+    else if (status === "Install Wallet")
       window.open("https://metamask.io/download", "_blank");
-    }
+    else console.log("Button has not yet been initialized");
   }
 
   return (
     <button
-      disabled={wallet !== null}
+      disabled={status === "Connected"}
       onClick={handleClick}
       className={styles.button + " " + className}
     >
-      {buttonText}
+      {status}
     </button>
   );
 }
