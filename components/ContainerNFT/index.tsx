@@ -14,18 +14,8 @@ export default function ContainerNFT() {
 
   return (
     <>
-      {/* <div className="title-bar">
+      <div className="title-bar">
         <div className="title-bar-text">Available NFTs</div>
-      </div> */}
-      <div className={"status-bar" + " " + styles.statusBarContainer}>
-        <p className="status-bar-field">Status:</p>
-        <p id="indicator-status" className="status-bar-field">
-          {account.length > 0 ? "Connected" : "Not connected"}
-        </p>
-        <p className="status-bar-field">Wallet:</p>
-        <p id="indicator-wallet" className="status-bar-field">
-          {account.length > 0 ? account[0] : "N/A"}
-        </p>
       </div>
       <pre className={styles.containerInner}>
         {assets.length === 0 ? (
@@ -44,6 +34,16 @@ export default function ContainerNFT() {
           </div>
         )}
       </pre>
+      <div className={"status-bar" + " " + styles.statusBarContainer}>
+        <p className="status-bar-field">Status:</p>
+        <p id="indicator-status" className="status-bar-field">
+          {account.length > 0 ? "Connected" : "Not connected"}
+        </p>
+        <p className="status-bar-field">Wallet:</p>
+        <p id="indicator-wallet" className="status-bar-field">
+          {account.length > 0 ? account[0] : "N/A"}
+        </p>
+      </div>
     </>
   );
 }
