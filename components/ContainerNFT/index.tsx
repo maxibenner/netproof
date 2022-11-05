@@ -14,20 +14,9 @@ export default function ContainerNFT() {
 
   return (
     <>
-      <div className="title-bar">
+      {/* <div className="title-bar">
         <div className="title-bar-text">Available NFTs</div>
-      </div>
-      <pre className={styles.containerInner}>
-        {assets.length === 0 ? (
-          <p>No wallet connected</p>
-        ) : (
-          <div className={styles.assetContainer}>
-            {assets.map((a) => (
-              <ElementNFT key={a.id} label={a.name} src={a.image_preview_url} />
-            ))}
-          </div>
-        )}
-      </pre>
+      </div> */}
       <div className={"status-bar" + " " + styles.statusBarContainer}>
         <p className="status-bar-field">Status:</p>
         <p id="indicator-status" className="status-bar-field">
@@ -38,6 +27,23 @@ export default function ContainerNFT() {
           {account.length > 0 ? account[0] : "N/A"}
         </p>
       </div>
+      <pre className={styles.containerInner}>
+        {assets.length === 0 ? (
+          <p>No wallet connected</p>
+        ) : (
+          <div className={styles.assetContainer}>
+            {assets.map((a) =>
+              a.image_preview_url ? (
+                <ElementNFT
+                  key={a.id}
+                  label={a.name}
+                  src={a.image_preview_url}
+                />
+              ) : null
+            )}
+          </div>
+        )}
+      </pre>
     </>
   );
 }

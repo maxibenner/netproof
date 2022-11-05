@@ -9,3 +9,8 @@
 .divider {
   margin-bottom: 32px;
 }
+@media (max-width: 500px) {
+  .header > img {
+    display: none;
+  }
+}

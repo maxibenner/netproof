@@ -11,7 +11,9 @@ export default function ElementNFT({
 }) {
   return (
     <div className={styles.container}>
-      <img width={100} height={100} src={src} />
+      <div className={styles.imgContainer}>
+        <img src={src} />
+      </div>
       <p>{label}</p>
     </div>
   );
