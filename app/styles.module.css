@@ -1,0 +1,11 @@
+.buttonWalletConnect {
+  margin: 0 0 0 auto;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.divider {
+  margin-bottom: 32px;
+}
