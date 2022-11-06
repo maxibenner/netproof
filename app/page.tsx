@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import Image from "next/image";
 import ContainerNFT from "../components/ContainerNFT";
-import Popup from "../components/Popup";
+import PopupContainer from "../containers/PopupContainer";
 
 export default function Page() {
   return (
@@ -15,14 +15,12 @@ export default function Page() {
         />
         <h1>Netproof</h1>
       </div>
-      <h4>
+      <h4 className={styles.sub}>
         A digital service to verify and showcase NFTs on any web presence.
       </h4>
       <hr className={styles.divider} />
       <ContainerNFT />
-      <Popup className={styles.popup}>
-        <p>There's so much room for activities!</p>
-      </Popup>
+      <PopupContainer />
     </>
   );
 }

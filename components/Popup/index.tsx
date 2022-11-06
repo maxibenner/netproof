@@ -1,50 +1,64 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { WalletContext } from "../../context/walletContext";
+import useMousePos from "../../hooks/useMousePos";
+import styles from "./styles.module.css";
 
 export default function Popup({
   children,
   className,
+  title,
 }: {
   children: ReactNode;
   className?: string;
+  title?: string;
 }) {
-  const [pos, setPos] = useState([0, 0]);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [prevTranslate, setPrevTranslate] = useState({ x: 0, y: 0 });
+  const [pointerStart, setPointerStart] = useState({ x: 0, y: 0 });
   const [isGrabbed, setIsGrabbed] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const { mouseX, mouseY } = useMousePos();
+
+  const { activeAsset, setActiveAsset } = useContext(WalletContext);
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", () => handleGrab(false));
-
-    if (popupRef.current) {
-      setPos([popupRef.current.offsetLeft, popupRef.current.offsetTop]);
+    if (isGrabbed) {
+      const x = mouseX - pointerStart.x;
+      const y = mouseY - pointerStart.y;
+      setTranslate({ x: prevTranslate.x + x, y: prevTranslate.y + y });
     }
-  }, []);
-
-  function handleMouseMove(e: MouseEvent) {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-
-    setPos((prev) => [e.clientX, e.clientY]);
-  }
+  }, [isGrabbed, mouseX, mouseY]);
 
   function handleGrab(grabbed: boolean) {
+    setPointerStart({ x: mouseX, y: mouseY });
     setIsGrabbed(grabbed);
+    if (!grabbed) setPrevTranslate(translate);
   }
 
   return (
     <div
       ref={popupRef}
-      className={`window ${className}`}
-      style={{ transform: `translate(${pos[0]}px, ${pos[1]}px)` }}
+      className={`window ${styles.container} ${className}`}
+      style={{
+        transform: `translate(${translate.x}px, ${translate.y}px)`,
+        display: activeAsset ? "block" : "none",
+      }}
     >
-      <div className="title-bar" onMouseDown={() => handleGrab(true)}>
-        <div className="title-bar-text">A Window With Stuff In It</div>
-        <div className="title-bar-controls">
-          <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
-          <button aria-label="Close"></button>
+      <div
+        className={`title-bar ${styles.titleBar}`}
+        onMouseDown={() => handleGrab(true)}
+        onMouseUp={() => handleGrab(false)}
+      >
+        <div className="title-bar-text">{title}</div>
+        <div className={`title-bar-controls ${styles.titleBarControls}`}>
+          {/* <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button> */}
+          <button
+            aria-label="Close"
+            onClick={() => setActiveAsset(null)}
+          ></button>
         </div>
       </div>
       <div className="window-body">{children}</div>

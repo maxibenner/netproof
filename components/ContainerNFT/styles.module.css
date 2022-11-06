@@ -1,7 +1,11 @@
 .containerInner {
   text-align: center;
 }
-.statusBarContainer > p {
+.statusBarContainer {
+  display: flex;
+  flex-direction: row;
+}
+.statusBarContainer > div > p {
   overflow: hidden;
 }
 .assetContainer {
@@ -10,4 +14,21 @@
   gap: 24px;
   padding: 12px;
   overflow: hidden;
+}
+.statusBarPair {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+.statusBarPair > p:first-child {
+  width: 60px;
+}
+.statusBarPair > p:last-child {
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .statusBarContainer {
+    display: flex;
+    flex-direction: column;
+  }
 }

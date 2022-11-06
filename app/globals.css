@@ -15,11 +15,14 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: 24px;
-  background-color: #c0c0c0;
 }
-button {
-  cursor: url("/assets/cursors/pointer.cur"), auto;
+
+button,
+label,
+input[type="checkbox"] {
+  cursor: url("/assets/cursors/default.cur"), auto !important;
 }
+
 h1 {
   -webkit-font-smoothing: none;
   font-family: "Pixelated MS Sans Serif", Arial;

@@ -5,8 +5,7 @@
   position: relative;
   width: 110px;
   height: auto;
-  cursor: pointer;
-  cursor: url("/assets/cursors/pointer.cur"), auto;
+  /* cursor: url("/assets/cursors/pointer.cur"), auto; */
 }
 .containerInner {
   padding: 6px;

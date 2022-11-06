@@ -9,7 +9,8 @@ export const WalletContext = createContext<WalletContextType>(null!);
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [hasWallet, setHasWallet] = useState<boolean>();
   const [account, setAccount] = useState<string[]>([]);
-  const [assets, setAssets] = useState<any[]>([]);
+  const [assets, setAssets] = useState<OpenseaAsset[]>([]);
+  const [activeAsset, setActiveAsset] = useState<OpenseaAsset | null>(null);
 
   useEffect(() => {
     if (window.ethereum) setHasWallet(true);
@@ -43,7 +44,14 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <WalletContext.Provider
-      value={{ hasWallet, account, connectWallet, assets }}
+      value={{
+        hasWallet,
+        account,
+        connectWallet,
+        assets,
+        activeAsset,
+        setActiveAsset,
+      }}
     >
       {children}
     </WalletContext.Provider>
@@ -55,4 +63,6 @@ export type WalletContextType = {
   account: string[];
   assets: any[];
   connectWallet: () => void;
+  activeAsset: OpenseaAsset | null;
+  setActiveAsset: (asset: OpenseaAsset | null) => void;
 };
