@@ -38,25 +38,6 @@
   align-items: center;
   background-color: transparent;
 }
-.imgContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 250px;
-  min-height: 250px;
-}
-.img {
-  width: auto;
-  height: auto;
-  max-width: 250px;
-  max-height: 250px;
-}
-.badge {
-  position: absolute;
-  right: 7px;
-  bottom: 7px;
-}
 
 .embedCodeContainer {
   display: flex;

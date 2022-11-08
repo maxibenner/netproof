@@ -7,14 +7,10 @@ import ElementNFT from "../ElementNFT";
 import styles from "./styles.module.css";
 
 export default function ContainerNFT() {
-  const { account, assets, activeAsset, setActiveAsset } =
-    useContext(WalletContext);
+  const { account, assets, setActiveAsset } = useContext(WalletContext);
 
   return (
     <>
-      {/* <div className="title-bar">
-        <div className="title-bar-text">Available NFTs</div>
-      </div> */}
       <pre className={styles.containerInner}>
         {assets.length === 0 ? (
           <p>No wallet connected</p>

@@ -5,24 +5,24 @@ import styles from "./styles.module.css";
 import { WalletContext } from "../../context/walletContext";
 import { useContext, useState } from "react";
 import Badge from "../../components/Badge";
+import ImageInteractive from "../../components/ImageInteractive";
 
 export default function PopupContainer() {
   const { activeAsset } = useContext(WalletContext);
 
   // Visualisation options
   const [badge, setBadge] = useState(false);
+  const [tilt, setTilt] = useState(true);
   return (
     <div className={styles.container}>
       <Popup title={activeAsset?.name} className={styles.popup}>
         <div className={styles.inner}>
           <pre className={styles.imgWrapper}>
-            <div className={styles.imgContainer}>
-              {badge && <Badge className={styles.badge} />}
-              <img
-                className={styles.img}
-                src={activeAsset?.image_preview_url}
-              />
-            </div>
+            <ImageInteractive
+              withBadge={badge}
+              withTilt={tilt}
+              src={activeAsset?.image_preview_url}
+            />
           </pre>
 
           <fieldset>
