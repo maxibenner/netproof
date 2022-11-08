@@ -21,6 +21,7 @@ export default function ImageInteractive({
   const [mousePercentage, setMousePercentage] = useState({ x: "0%", y: "0%" });
   const [bgPos, setBgPos] = useState({ x: "50%", y: "50%" });
   const [opacity, setOpacity] = useState(0.05);
+  const [hyp, setHyper] = useState(0);
 
   function handleMouseMove(e: MouseMoveEventType) {
     const values = convertMousePosOverElement(e);
@@ -31,6 +32,7 @@ export default function ImageInteractive({
     });
     setBgPos({ x: values.bgPos.x + "%", y: values.bgPos.y + "%" });
     setOpacity(1);
+    setHyper(values.fromCenter);
   }
 
   function handleMouseLeave() {
@@ -49,16 +51,20 @@ export default function ImageInteractive({
           "--bgPos-x": bgPos.x,
           "--bgPos-y": bgPos.y,
           "--opacity": opacity,
+          "--tiltAngle": `${hyp * 20}deg`,
+          "--hyp": hyp,
         } as CSSProperties
       }
-      className={`${styles.imageContainer} ${withTilt && styles.withTilt}`}
+      className={styles.imageContainer}
       onMouseMove={(e) => handleMouseMove(e)}
       onMouseLeave={handleMouseLeave}
     >
-      {withBadge && <Badge className={styles.badge} />}
-      <img className={styles.image} src={src} />
-      <div className={styles.image_shine}></div>
-      <div className={styles.image_glare}></div>
+      <div className={`${styles.inner} ${withTilt && styles.withTilt}`}>
+        {withBadge && <Badge className={styles.badge} />}
+        <img className={styles.image} src={src} />
+        <div className={styles.image_shine}></div>
+        <div className={styles.image_glare}></div>
+      </div>
     </div>
   );
 }
@@ -73,17 +79,23 @@ function convertMousePosOverElement(e: MouseMoveEventType) {
   const y = ((e.clientY - rect.top) / rect.height) * 100;
 
   // Normalize to -1 and 1
-  const xNorm = ((x - 50) / 50) * -1;
-  const yNorm = (y - 50) / 50;
+  const xNorm = (x - 50) / 50;
+  const yNorm = ((y - 50) / 50) * -1;
 
   // Normalize percentage to 38 and 62
   const xNormPerc = ((x - 50) / 50) * 38 + 50;
   const yNormPerc = ((y - 50) / 50) * 38 + 50;
 
+  // Normalize from center 0 to outside 1
+  const centerX = Math.abs((x - 50) / 50);
+  const centerY = Math.abs((y - 50) / 50);
+  const fromCenter = Math.max(centerX, centerY);
+
   return {
     normalized: { x: xNorm, y: yNorm },
     percentage: { x, y },
     bgPos: { x: xNormPerc, y: yNormPerc },
+    fromCenter: fromCenter,
   };
 }
 
