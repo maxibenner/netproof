@@ -53,8 +53,6 @@ export default function Popup({
       >
         <div className="title-bar-text">{title}</div>
         <div className={`title-bar-controls ${styles.titleBarControls}`}>
-          {/* <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button> */}
           <button
             aria-label="Close"
             onClick={() => setActiveAsset(null)}

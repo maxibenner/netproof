@@ -1,18 +1,34 @@
 "use client";
 
-import Popup from "../../components/Popup";
-import styles from "./styles.module.css";
-import { WalletContext } from "../../context/walletContext";
 import { useContext, useState } from "react";
-import Badge from "../../components/Badge";
 import ImageInteractive from "../../components/ImageInteractive";
+import Popup from "../../components/Popup";
+import { WalletContext } from "../../context/walletContext";
+import styles from "./styles.module.css";
 
 export default function PopupContainer() {
   const { activeAsset } = useContext(WalletContext);
+  const [embedCode, setEmbedCode] = useState<string>();
 
   // Visualisation options
   const [badge, setBadge] = useState(false);
   const [tilt, setTilt] = useState(true);
+
+  function handleVizChange(e: any) {
+    setBadge(e.target.name === "badge");
+    setTilt(e.target.name === "tilt");
+  }
+
+  function handleEmbedCodeGeneration() {
+    let iframe = document.createElement("iframe");
+
+    iframe.src = "URL OF CONTENT YOU WANT TO PROVIDE";
+    iframe.width = "200";
+    iframe.height = "200";
+
+    setEmbedCode(iframe.outerHTML);
+  }
+
   return (
     <div className={styles.container}>
       <Popup title={activeAsset?.name} className={styles.popup}>
@@ -29,23 +45,34 @@ export default function PopupContainer() {
             <legend>Verification visuals</legend>
             <div className="field-row">
               <input
-                onChange={() => setBadge(!badge)}
-                id="checkbox13"
-                type="checkbox"
-                name="fieldset-example2"
+                id="radioBadge"
+                type="radio"
+                name="badge"
+                checked={badge}
+                onChange={handleVizChange}
               />
-              <label htmlFor="checkbox13">Badge</label>
+              <label htmlFor="radioBadge">Badge</label>
             </div>
             <div className="field-row">
-              <input id="checkbox14" type="checkbox" name="fieldset-example2" />
-              <label htmlFor="checkbox14">Gloss</label>
+              <input
+                id="radioTilt"
+                type="radio"
+                name="tilt"
+                checked={tilt}
+                onChange={handleVizChange}
+              />
+              <label htmlFor="radioTilt">Gloss</label>
             </div>
           </fieldset>
 
-          <pre className={styles.embedCodeContainer}>
-            <p className={styles.embedCode}>No embed code generated</p>
-          </pre>
-          <button>Generate embed code</button>
+          {embedCode && (
+            <pre className={styles.embedCodeContainer}>
+              <p>{embedCode}</p>
+            </pre>
+          )}
+          <button onClick={handleEmbedCodeGeneration}>
+            Generate embed code
+          </button>
         </div>
       </Popup>
     </div>

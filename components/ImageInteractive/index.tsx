@@ -53,17 +53,22 @@ export default function ImageInteractive({
           "--opacity": opacity,
           "--tiltAngle": `${hyp * 20}deg`,
           "--hyp": hyp,
+          "--img": `url(${src})`,
         } as CSSProperties
       }
-      className={styles.imageContainer}
+      className={styles.wrapper}
       onMouseMove={(e) => handleMouseMove(e)}
       onMouseLeave={handleMouseLeave}
     >
       <div className={`${styles.inner} ${withTilt && styles.withTilt}`}>
         {withBadge && <Badge className={styles.badge} />}
         <img className={styles.image} src={src} />
-        <div className={styles.image_shine}></div>
-        <div className={styles.image_glare}></div>
+        {withTilt && (
+          <>
+            <div className={`${styles.image_shine} ${styles.mask}`}></div>
+            <div className={`${styles.image_glare} ${styles.mask}`}></div>
+          </>
+        )}
       </div>
     </div>
   );
