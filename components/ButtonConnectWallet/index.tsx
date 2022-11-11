@@ -16,7 +16,8 @@ export default function ButtonConnectWallet({
 }: {
   className?: string;
 }) {
-  const { hasWallet, connectWallet, account } = useContext(WalletContext);
+  const { hasWallet, connectWallet, selectedAccount } =
+    useContext(WalletContext);
   const status = useMemo(() => {
     // Initializing
     if (hasWallet === undefined) return "";
@@ -25,16 +26,16 @@ export default function ButtonConnectWallet({
     // Wallet installed
     else {
       // Not connected
-      if (account.length === 0) return "Connect Wallet";
+      if (!selectedAccount) return "Sign in with Wallet";
       // Connected
       else return "Connected";
     }
-  }, [hasWallet, account]);
+  }, [hasWallet, selectedAccount]);
 
   // Route to MetaMask install page if no wallet is detected
   // Otherwise, connect to wallet
   function handleClick() {
-    if (status === "Connect Wallet") connectWallet();
+    if (status === "Sign in with Wallet") connectWallet();
     else if (status === "Install Wallet")
       window.open("https://metamask.io/download", "_blank");
     else console.log("Button has not yet been initialized");

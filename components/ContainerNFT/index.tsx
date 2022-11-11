@@ -7,7 +7,7 @@ import ElementNFT from "../ElementNFT";
 import styles from "./styles.module.css";
 
 export default function ContainerNFT() {
-  const { account, assets, setActiveAsset } = useContext(WalletContext);
+  const { selectedAccount, assets, setActiveAsset } = useContext(WalletContext);
 
   return (
     <>
@@ -33,13 +33,13 @@ export default function ContainerNFT() {
         <div className={styles.statusBarPair}>
           <p className="status-bar-field">Status:</p>
           <p id="indicator-status" className="status-bar-field">
-            {account.length > 0 ? "Connected" : "Not connected"}
+            {selectedAccount ? "Connected" : "Not connected"}
           </p>
         </div>
         <div className={styles.statusBarPair}>
           <p className="status-bar-field">Wallet:</p>
           <p id="indicator-wallet" className="status-bar-field">
-            {account.length > 0 ? account[0] : "N/A"}
+            {selectedAccount ? selectedAccount : "N/A"}
           </p>
         </div>
       </div>

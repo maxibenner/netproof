@@ -3,12 +3,14 @@
 import { createContext, useState, useEffect } from "react";
 import { OpenseaAsset } from "../types/OpenseaAsset";
 import { fetchOpenseaAssets } from "../utils/getAssets";
+import { db } from "../lib/firebase";
+import toHex from "../utils/toHex";
 
 export const WalletContext = createContext<WalletContextType>(null!);
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [hasWallet, setHasWallet] = useState<boolean>();
-  const [account, setAccount] = useState<string[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [assets, setAssets] = useState<OpenseaAsset[]>([]);
   const [activeAsset, setActiveAsset] = useState<OpenseaAsset | null>(null);
 
@@ -31,7 +33,31 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const account = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(account);
+
+      // Check if this wallet is registered with firebase
+      // If not, register it
+      const res = await fetch(
+        "http://localhost:3000/api/getNonce?walletAddress=" + account[0]
+      );
+      const nonceResponse = await res.json();
+
+      if (nonceResponse.nonce) {
+        // Sign nonce
+        const signature = await signData(nonceResponse.nonce);
+
+        if (signature) {
+          const userData = await fetch(
+            "http://localhost:3000/api/getData?walletAddress=" +
+              account[0] +
+              "&signature=" +
+              signature
+          );
+          const dataResponse = await userData.json();
+          console.log(dataResponse);
+        }
+      }
+
+      setSelectedAccount(window.ethereum.selectedAccount);
       setHasWallet(true);
 
       const { assets } = await fetchOpenseaAssets(account[0]);
@@ -43,24 +69,20 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }
 
   // Sign
-  async function signData() {
-    const test = await window.ethereum.request({
+  async function signData(data: string) {
+    const signature = await window.ethereum.request({
       method: "personal_sign",
-      params: [account[0], "random"],
+      params: [`0x${toHex(data)}`, window.ethereum.selectedAddress],
     });
-    console.log(test);
-    // window.ethereum.sign(
-    //   window.ethereum.fromUtf8("Hello from Toptal!"),
-    //   window.ethereum.eth.coinbase,
-    //   console.log
-    // );
+
+    return signature;
   }
 
   return (
     <WalletContext.Provider
       value={{
         hasWallet,
-        account,
+        selectedAccount,
         connectWallet,
         assets,
         activeAsset,
@@ -75,10 +97,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
 export type WalletContextType = {
   hasWallet: boolean | undefined;
-  account: string[];
+  selectedAccount: string | null;
   assets: any[];
   connectWallet: () => void;
   activeAsset: OpenseaAsset | null;
   setActiveAsset: (asset: OpenseaAsset | null) => void;
-  signData: () => void;
+  signData: (data: string) => void;
 };
