@@ -7,7 +7,7 @@ import { WalletContext } from "../../context/walletContext";
 import styles from "./styles.module.css";
 
 export default function PopupContainer() {
-  const { activeAsset } = useContext(WalletContext);
+  const { activeAsset, signData } = useContext(WalletContext);
   const [embedCode, setEmbedCode] = useState<string>();
 
   // Visualisation options
@@ -22,7 +22,8 @@ export default function PopupContainer() {
   async function handleEmbedCodeGeneration() {
     const res = await fetch("http://localhost:3000/api/createVerifiedNFT");
     const data = await res.json();
-    console.log(data)
+    signData()
+    // console.log(data)
     // let iframe = document.createElement("iframe");
 
     // iframe.src = "URL OF CONTENT YOU WANT TO PROVIDE";

@@ -1,15 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import admin from "./init";
+import { db } from "../../lib/firebase";
 
 type Data = {
   name: string;
 };
 
-export default function createVerifiedNFT(
+export default async function createVerifiedNFT(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  admin.app().firestore().collection("verifiedNFTs").add({ test: "test" });
+  // await db.collection("users").doc("user1").set({ test: "test" });
   res.status(200).json({ name: "John Doe" });
 }

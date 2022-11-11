@@ -42,6 +42,20 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  // Sign
+  async function signData() {
+    const test = await window.ethereum.request({
+      method: "personal_sign",
+      params: [account[0], "random"],
+    });
+    console.log(test);
+    // window.ethereum.sign(
+    //   window.ethereum.fromUtf8("Hello from Toptal!"),
+    //   window.ethereum.eth.coinbase,
+    //   console.log
+    // );
+  }
+
   return (
     <WalletContext.Provider
       value={{
@@ -51,6 +65,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         assets,
         activeAsset,
         setActiveAsset,
+        signData,
       }}
     >
       {children}
@@ -65,4 +80,5 @@ export type WalletContextType = {
   connectWallet: () => void;
   activeAsset: OpenseaAsset | null;
   setActiveAsset: (asset: OpenseaAsset | null) => void;
+  signData: () => void;
 };
