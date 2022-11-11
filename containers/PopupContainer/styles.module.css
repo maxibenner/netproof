@@ -43,7 +43,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: text;
   user-select: text;
   background-color: black;
 }
@@ -53,4 +52,5 @@
   margin: 0;
   white-space: pre-wrap;
   color: white;
+  cursor: text;
 }

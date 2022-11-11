@@ -19,14 +19,17 @@ export default function PopupContainer() {
     setTilt(e.target.name === "tilt");
   }
 
-  function handleEmbedCodeGeneration() {
-    let iframe = document.createElement("iframe");
+  async function handleEmbedCodeGeneration() {
+    const res = await fetch("http://localhost:3000/api/createVerifiedNFT");
+    const data = await res.json();
+    console.log(data)
+    // let iframe = document.createElement("iframe");
 
-    iframe.src = "URL OF CONTENT YOU WANT TO PROVIDE";
-    iframe.width = "200";
-    iframe.height = "200";
+    // iframe.src = "URL OF CONTENT YOU WANT TO PROVIDE";
+    // iframe.width = "200";
+    // iframe.height = "200";
 
-    setEmbedCode(iframe.outerHTML);
+    // setEmbedCode(iframe.outerHTML);
   }
 
   return (
