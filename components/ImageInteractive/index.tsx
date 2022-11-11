@@ -17,8 +17,6 @@ export default function ImageInteractive({
   withBadge?: boolean;
   withTilt?: boolean;
 }) {
-  const [unmounting, setUnmounting] = useState(false);
-
   const [normMouseCoords, setNormMouseCoords] = useState({ x: 0, y: 0 });
   const [mousePercentage, setMousePercentage] = useState({ x: "0%", y: "0%" });
   const [bgPos, setBgPos] = useState({ x: "50%", y: "50%" });
@@ -62,11 +60,7 @@ export default function ImageInteractive({
       onMouseMove={(e) => handleMouseMove(e)}
       onMouseLeave={handleMouseLeave}
     >
-      <div
-        className={`${styles.inner} ${withTilt && styles.withTilt} ${
-          unmounting && styles.unmount
-        }`}
-      >
+      <div className={`${styles.inner} ${withTilt && styles.withTilt}`}>
         {withBadge && <Badge className={styles.badge} />}
         <img className={styles.image} src={src} />
         {withTilt && (
