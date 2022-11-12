@@ -37,7 +37,7 @@ export default function ImageInteractive({
 
   function handleMouseLeave() {
     setNormMouseCoords({ x: 0, y: 0 });
-    setOpacity(0.05);
+    setOpacity(0);
   }
 
   return (
